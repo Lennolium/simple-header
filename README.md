@@ -2,9 +2,9 @@
 
 <div align="center">  
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Lennolium/simple-useragent/main/img/banner_dark.png" width="750vw">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Lennolium/simple-useragent/main/img/banner_light.png" width="750vw">
-  <img alt="Application Banner" src="https://raw.githubusercontent.com/Lennolium/simple-useragent/main/img/banner_light.png" width="750vw">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_dark.png" width="700vw">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_light.png" width="700vw">
+  <img alt="Application Banner" src="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_light.png" width="700vw">
 </picture>
 </div>
 <br>
@@ -12,28 +12,28 @@
 <!--- Badges -->
 
 <div align="center"> 
-  <a href="https://github.com/Lennolium/simple-useragent/branches" > 
-    <img src="https://img.shields.io/github/last-commit/Lennolium/simple-useragent?label=Last%20Updated&color=orange" alt="last updated" >
+  <a href="https://github.com/Lennolium/simple-header/branches" > 
+    <img src="https://img.shields.io/github/last-commit/Lennolium/simple-header?label=Last%20Updated&color=orange" alt="last updated" >
   <a></a>  
-   <a href="https://app.codacy.com/gh/Lennolium/simple-useragent/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade" > 
+   <a href="https://app.codacy.com/gh/Lennolium/simple-header/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade" > 
     <img src="https://app.codacy.com/project/badge/Grade/747e8fea69394b10a1f4627babddcf4f" alt="code quality" >
     <a></a>
-   <a href="https://github.com/Lennolium/simple-useragent/commits/main" > 
-    <img src="https://img.shields.io/github/commit-activity/m/Lennolium/simple-useragent?label=Commit%20Activity&color=yellow" 
+   <a href="https://github.com/Lennolium/simple-header/commits/main" > 
+    <img src="https://img.shields.io/github/commit-activity/m/Lennolium/simple-header?label=Commit%20Activity&color=yellow" 
 alt="commit activity" >
      <a></a>
-  <a href="https://github.com/Lennolium/simple-useragent/releases" > 
+  <a href="https://github.com/Lennolium/simple-header/releases" > 
     <img src="https://img.shields.io/badge/Version-0.1.0-brightgreen" 
 alt="stable version" >
      <br>
-  <a href="https://github.com/Lennolium/simple-useragent/issues" > 
-    <img src="https://img.shields.io/github/issues-raw/Lennolium/simple-useragent?label=Open%20Issues&color=critical" alt="open issues" >
-  <a href="https://github.com/Lennolium/simple-useragent/issues?q=is%3Aissue+is%3Aclosed" > 
-    <img src="https://img.shields.io/github/issues-closed-raw/Lennolium/simple-useragent?label=Closed%20Issues&color=inactive" alt="closed issues" > 
-     <a href="https://pepy.tech/project/simple-useragent" > 
-    <img src="https://static.pepy.tech/badge/simple-useragent" alt="pypi downloads" >
-  <a href="https://github.com/Lennolium/simple-useragent/blob/main/LICENSE" > 
-    <img src="https://img.shields.io/github/license/Lennolium/simple-useragent?label=License&color=blueviolet" alt="License" > 
+  <a href="https://github.com/Lennolium/simple-header/issues" > 
+    <img src="https://img.shields.io/github/issues-raw/Lennolium/simple-header?label=Open%20Issues&color=critical" alt="open issues" >
+  <a href="https://github.com/Lennolium/simple-header/issues?q=is%3Aissue+is%3Aclosed" > 
+    <img src="https://img.shields.io/github/issues-closed-raw/Lennolium/simple-header?label=Closed%20Issues&color=inactive" alt="closed issues" > 
+     <a href="https://pepy.tech/project/simple-header" > 
+    <img src="https://static.pepy.tech/badge/simple-header" alt="pypi downloads" >
+  <a href="https://github.com/Lennolium/simple-header/blob/main/LICENSE" > 
+    <img src="https://img.shields.io/github/license/Lennolium/simple-header?label=License&color=blueviolet" alt="License" > 
   <a></a> </a> </a> </a> </a> </a> </a> </a> </a>
 </div>
 
@@ -46,11 +46,11 @@ alt="stable version" >
 <!--- Description -->
 
 <div align="center">
-Fetches real world, up-to-date user agents for use in web scraping to avoid bot detection.
-No more fake or outdated user agents, only user agents of real users.
-You can either get random or usage-weighted user agents. It caches
-the user agents locally to avoid unnecessary API calls, and refreshes them automatically every 24 hours
-from the public API of <a href="https://useragents.me/">useragents.me</a>. <br><br>
+Generate ready-to-use headers for a web request with the least chance of
+being blocked by anti-scraping techniques applied by websites. The
+headers are based on the most common headers sent by browsers and operating
+systems, and are ordered in the right way (servers check for that, even if the web standards say it
+should not be considered). <br><br>
 
 [![Donate](https://img.shields.io/badge/Donate-Paypal-blue?style=flat-square&logo=paypal)](https://www.paypal.me/smogg)
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20me%20a-Coffee-f5d132?style=flat-square&logo=buymeacoffee)](https://buymeacoffee.com/lennolium)
@@ -81,12 +81,13 @@ from the public API of <a href="https://useragents.me/">useragents.me</a>. <br><
 
 ## Features
 
-- __Up-to-date:__ No fake or outdated user agents. `Only real world data`, refreshed every 24 hours.
-- __Wide Support:__ User Agents for Windows, macOS, Linux, Android and iOS devices: Google Chrome, Firefox, Safari, Edge, Opera, Whale and QQ browsers.
-- __Lightweight:__ Designed to consume minimal system resources and caches user agents locally.
+- __Authentic:__ All header values, combinations and their order are verified to work with most web servers.
+- __Powerful:__ Pass your own user agent in or use the convenience functions to get common, real-world user agents. 
+- __Wide Support:__ Almost all user agents supported: Windows, macOS, Linux, Android and iOS: Google Chrome, Firefox, Safari, Edge, Opera, Whale and QQ.
+- __Lightweight:__ Designed to consume minimal system resources and optimized for performance.
 - __Simple:__ Easy to use and understand with a clean and simple API.
 - __Compatible:__ Supports `Python 3.8 and above`. Runs on Windows, macOS and Linux.
-- __Privacy:__ Protects the user by not collecting or sending any personal data.
+- __Ready-to-use:__ It generates headers for direct use in web requests, and you can focus on your project.
 - __Open Source:__ Provides transparency and allows community contributions for continuous development.
 
 &nbsp;
@@ -95,10 +96,10 @@ from the public API of <a href="https://useragents.me/">useragents.me</a>. <br><
 
 ## Installation
 
-Just install the package from [PyPi](https://pypi.org/project/simple-useragent/) using pip:
+Just install the package from [PyPi](https://pypi.org/project/simple-header/) using pip:
 
    ```bash
-    pip install simple-useragent
+    pip install simple-header
    ```
 
 &nbsp;
@@ -112,15 +113,15 @@ Just install the package from [PyPi](https://pypi.org/project/simple-useragent/)
 Just import the package and use the convenience functions. For more advanced usage, you can initialize the class to set custom settings.
 
    ```python
-    import simple_useragent as sua
+    import simple_header as sh
 
-    sua.get(num=2, mobile=True)  # List of the 2 most common mobile user agents (attributes explained below).
+    sh.get(num=2, mobile=True)  # List of the 2 most common mobile user agents (attributes explained below).
     # [UserAgent('Mozilla/5.0 (Android ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
     
-    sua.get_list(shuffle=True, force_cached=True)  # Random list of available desktop user agents strings.
+    sh.get_list(shuffle=True, force_cached=True)  # Random list of available desktop user agents strings.
     # ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
     
-    sua.get_dict()  # Dictionary with all desktop and mobile user agents.
+    sh.get_dict()  # Dictionary with all desktop and mobile user agents.
     # {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
    ```
 &nbsp;
@@ -129,7 +130,7 @@ Just import the package and use the convenience functions. For more advanced usa
 
 Import the package and initialize the UserAgents class to set custom settings (optional, see [Settings and Parameters](#settings-and-parameters) for details).
    ```python
-    import simple_useragent as sua
+    import simple_header as sh
 
     simple_ua = sua.UserAgents(max_retries=3, timeout=5, cache_duration=86400, cache_location='example/path/to/folder')
    ```
@@ -198,7 +199,7 @@ You can set custom preferences when initializing the class with `UserAgents(...)
 > 
 > - The user agents are cached locally to avoid unnecessary API calls, and are refreshed automatically every 24 hours.
 > - During runtime the user agents are stored in memory and written to a cache file for persistence and performance.
-> - Every time you invoke a simple-useragent function, it is automatically checked for outdated user agents.
+> - Every time you invoke a simple-header function, it is automatically checked for outdated user agents.
 
 &nbsp;
 
@@ -209,14 +210,14 @@ You can set custom preferences when initializing the class with `UserAgents(...)
 As an open-source project, I strive for transparency and collaboration in my development process. I greatly 
 appreciate any contributions members of our community can provide. Whether you are fixing bugs, proposing features, 
 improving documentation, or spreading awareness - your involvement strengthens the project. Please review the 
-[code of conduct](https://github.com/Lennolium/simple-useragent/blob/main/.github/CODE_OF_CONDUCT.md) to understand how we work together 
+[code of conduct](https://github.com/Lennolium/simple-header/blob/main/.github/CODE_OF_CONDUCT.md) to understand how we work together 
 respectfully.
 
-- __Bug Report:__ If you are experiencing an issue while using the package, please [create an issue](https://github.com/Lennolium/simple-useragent/issues/new/choose).
-- __Feature Request:__ Make this project better by [submitting a feature request](https://github.com/Lennolium/simple-useragent/discussions/new?category=feature-requests).
-- __Documentation:__ Improve our documentation by [adding a wiki page](https://github.com/Lennolium/simple-useragent/wiki).
-- __Community Support:__ Help others on [GitHub Discussions](https://github.com/Lennolium/simple-useragent/discussions).
-- __Security Report:__ Report critical security issues via our [template](https://github.com/Lennolium/simple-useragent/blob/main/.github/SECURITY.md).
+- __Bug Report:__ If you are experiencing an issue while using the package, please [create an issue](https://github.com/Lennolium/simple-header/issues/new/choose).
+- __Feature Request:__ Make this project better by [submitting a feature request](https://github.com/Lennolium/simple-header/discussions/new?category=feature-requests).
+- __Documentation:__ Improve our documentation by [adding a wiki page](https://github.com/Lennolium/simple-header/wiki).
+- __Community Support:__ Help others on [GitHub Discussions](https://github.com/Lennolium/simple-header/discussions).
+- __Security Report:__ Report critical security issues via our [template](https://github.com/Lennolium/simple-header/blob/main/.github/SECURITY.md).
 
 &nbsp;
 
@@ -226,8 +227,8 @@ respectfully.
 
 Thank you so much for giving feedback, implementing features and improving the code and project!
 
-<a href = "https://github.com/Lennolium/simple-useragent/graphs/contributors">
-  <img src = "https://contrib.rocks/image?repo=Lennolium/simple-useragent" alt="Contributors"/> 
+<a href = "https://github.com/Lennolium/simple-header/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=Lennolium/simple-header" alt="Contributors"/> 
 </a>
 
 &nbsp;
@@ -236,7 +237,7 @@ Thank you so much for giving feedback, implementing features and improving the c
 
 ## Credits
 
-Full credits are in the [acknowledgments](https://github.com/Lennolium/simple-useragent/blob/main/ACKNOWLEDGMENTS) file.
+Full credits are in the [ACKNOWLEDGMENTS](https://github.com/Lennolium/simple-header/blob/main/ACKNOWLEDGMENTS) file.
 
 &nbsp;
 
@@ -246,6 +247,6 @@ Full credits are in the [acknowledgments](https://github.com/Lennolium/simple-us
 
 Provided under the terms of the [GNU GPL3 License](https://www.gnu.org/licenses/gpl-3.0.en.html) © Lennart Haack 2024.
 
-See [LICENSE](https://github.com/Lennolium/simple-useragent/blob/main/LICENSE) file for details.
-For the licenses of used third party libraries and software, please refer to the [ACKNOWLEDGMENTS](https://github.com/Lennolium/simple-useragent/blob/main/ACKNOWLEDGMENTS) file.
+See [LICENSE](https://github.com/Lennolium/simple-header/blob/main/LICENSE) file for details.
+For the licenses of used third party libraries and software, please refer to the [ACKNOWLEDGMENTS](https://github.com/Lennolium/simple-header/blob/main/ACKNOWLEDGMENTS) file.
 

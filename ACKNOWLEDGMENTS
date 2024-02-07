@@ -1,0 +1,26 @@
+Many thanks to the owners and maintainers of the following python
+packages which were used in the development of this project. Without
+these packages, this project would not have been possible, or at least
+would have been much more difficult to develop. If you are interested in
+learning more about these packages, please check the links below:
+
+
+Used in simple-useragent:
+------------------------------------------------------------------------
+- Requests: https://github.com/psf/requests
+- BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+- platformdirs: https://github.com/platformdirs/platformdirs
+- ua-parser: https://github.com/ua-parser/uap-python
+
+The base functionality of simple-useragent is built on top of the
+useragents.me API, which is a free service that provides user agent
+strings and their usage percentage for a wide variety of devices and
+browsers.
+
+- UserAgents.me (Nick, stayML): https://useragents.me/
+
+
+Used in simple-header:
+------------------------------------------------------------------------
+- tldextract: https://github.com/john-kurkowski/tldextract
+- validators: https://github.com/python-validators/validators/
