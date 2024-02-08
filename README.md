@@ -198,19 +198,19 @@ The functions can take the following parameters:
 - __url:__ The url of the website you want to scrape.
 - __language:__ The language of the website you want to scrape or where the request is made from (default: _None_ = auto-detect).
 - __user_agent:__ A custom user agent string or a UserAgent instance to use for header generation (default: _None_ = random user agent).
-- __mobile:__ If no user_agent is passed: Generate a mobile or desktop user agent (default: _False_ = desktop).
+- __mobile:__ If no `user_agent` is passed: Generate a mobile or desktop user agent (default: _False_ = desktop).
 - __seed:__ The random seed for referer selection and header value combinations (default: _None_ = most plausible values chosen, max: _720_).
-- __num:__ The number of Header instances to fetch for get_list method (default: _10_, max: _720_).
+- __num:__ The number of Header instances to fetch only for `get_list` method (default: _10_, max: _720_).
 
 &nbsp;
 
 > __Notes:__
 > 
 > - The `src/simple_header/inspect_headers.py` file contains a commented-out Flask app to validate which headers your browser or scraper sends.
-> - The language auto-detection is based on the top-level domain of the url. You can overwrite it with the `language` parameter, by giving it a language (e.g. 'de-DE') or a country code (e.g. 'de'). Fallback for unknown or non-country domains (.org, .dev, ...) is 'en-US'.
+> - The language auto-detection is based on the top-level domain of the url. You can overwrite it with the `language` parameter, by giving it a language (e.g. _'de-DE'_) or a country code (e.g. _'de'_). Fallback for unknown or non-country domains (.org, .dev, ...) is _'en-US'_.
 > - For each language there is a pool of common websites, which are used to get a plausible referer. Also, we use the url to scrape without the path as referer (e.g. 'https://www.example.com/cat/pics.html' -> 'https://www.example.com'). The referer is used to make the request look more realistic, as it seems like the user is browsing between different pages of the website.
 > - The `seed` parameter is used to set the random seed for referer selection and header values (if multiple are available). This is useful if your request got blocked by the server, so you try again with another seed. There are around 720 different combinations/seeds possible.
-> - The order of the headers is important, as most servers and bot-detectors check for that, even if the web standards say it should not be considered. I manually tested for every browser and OS which headers are sent and in which order.
+> - The order of the headers is important, as most servers and bot-detectors check for that, even if the web standards say it should not be considered. I _manually tested_ for every browser and OS which headers are sent and in which order.
 
 &nbsp;
 
