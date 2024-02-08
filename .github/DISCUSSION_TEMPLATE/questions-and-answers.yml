@@ -1,0 +1,150 @@
+title: "Question: "
+labels: [ "question", ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        <!--- Logo and Header -->
+         <div align="center">  
+         <picture>
+           <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_dark.png" 
+         width="500vw">
+           <source media="(prefers-color-scheme: light)" 
+         srcset="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_light.png" 
+         width="500vw">
+           <img alt="simple-header banner" src="https://raw.githubusercontent.com/Lennolium/simple-header/main/img/banner_light.png" 
+         width="500vw">
+         </picture>
+         </div>
+        
+         <h2 align="center">Question Submit Form</h2>
+         <div align="center">
+         Provide the following information properly, which will help me to answer your question quickly. 
+         If you need further help with this form, please do not hesitate and contact me via <a href="mailto:simple-header@lennolium.dev">email</a>.
+         Also make sure to check the the discussion forum for similar questions before submitting this form to avoid duplicates.
+         For <b>issues regarding the package</b>, please open a new issue in the <a href="https://github.com/Lennolium/simple-header/issues/new/choose">Issues tab</a>. 
+         <br>
+         For all general questions, please use this form.
+         <br>
+         <br>
+        
+         <a href="https://github.com/Lennolium/simple-header/discussions" > 
+         <img src="https://img.shields.io/github/discussions/Lennolium/simple-header?style=flat-square&color=deepskyblue" alt="discussions" >
+         </a>
+        
+         </div>
+         <br>
+         <br>
+
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: About what do you have a question?
+      options:
+        - Installation
+        - Features/Functionality
+        - Usage
+        - Future Plans
+        - Development/Contributing
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Here you ask your specific question and provide detailed information. You can also attach screenshots and files here.
+      placeholder: I have a question ...
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: Which operating system are you using? (e.g. Windows, macOS, Linux, Android, iOS, ...)"
+      placeholder: Operating System name and version
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: "Which version of Python are you using? (e.g. 3.12, 3.11, ...)"
+      placeholder: Version number
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: dropdown
+    id: list
+    attributes:
+      label: Installation Method
+      description: "How did you install the package?"
+      multiple: false
+      options:
+        - PyPI (pip)
+        - Release (GitHub)
+        - From Source (GitHub)
+        - Other
+      default: 0
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: "What version of the package are you running? In Python: 'simple_header.__version__', pip: 'pip show simple-header'."
+      placeholder: Latest, 0.1.0, 0.1.1, Legacy, ...
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Further Information
+      description: Feel free to add any further information maybe needed here.
+      render: shell
+
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Agreements
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Lennolium/simple-header/blob/master/.github/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct.
+          required: true
+        - label: I confirm that I have searched the discussion tab for similar questions and this is not a duplicate.
+          required: true

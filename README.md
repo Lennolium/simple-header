@@ -81,13 +81,13 @@ should not be considered). <br><br>
 
 ## Features
 
-- __Authentic:__ All header values, combinations and their order are verified to work with most web servers.
+- __Authentic:__ All header values, combinations and their ordering are `verified to work` with most web servers.
 - __Powerful:__ Pass your own user agent in or use the convenience functions to get common, real-world user agents. 
-- __Wide Support:__ Almost all user agents supported: Windows, macOS, Linux, Android and iOS: Google Chrome, Firefox, Safari, Edge, Opera, Whale and QQ.
+- __Wide Support:__ Almost `all user agents supported`: Windows, macOS, Linux, Android and iOS: Google Chrome, Firefox, Safari, Edge, Opera, Whale and QQ.
 - __Lightweight:__ Designed to consume minimal system resources and optimized for performance.
 - __Simple:__ Easy to use and understand with a clean and simple API.
 - __Compatible:__ Supports `Python 3.8 and above`. Runs on Windows, macOS and Linux.
-- __Ready-to-use:__ It generates headers for direct use in web requests, and you can focus on your project.
+- __Ready-to-use:__ It generates headers for direct use in web requests, so you can focus on your project.
 - __Open Source:__ Provides transparency and allows community contributions for continuous development.
 
 &nbsp;
@@ -110,64 +110,80 @@ Just install the package from [PyPi](https://pypi.org/project/simple-header/) us
 
 #### Quickstart
 
-Just import the package and use the convenience functions. For more advanced usage, you can initialize the class to set custom settings.
-
+Just import the package and use the convenience function.
    ```python
     import simple_header as sh
 
-    sh.get(num=2, mobile=True)  # List of the 2 most common mobile user agents (attributes explained below).
-    # [UserAgent('Mozilla/5.0 (Android ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
-    
-    sh.get_list(shuffle=True, force_cached=True)  # Random list of available desktop user agents strings.
-    # ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
-    
-    sh.get_dict()  # Dictionary with all desktop and mobile user agents.
-    # {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
+    sh.get_dict(url="https://www.example.com/cat/pics.html")
+    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Connection': 'keep-alive', ...}
    ```
 &nbsp;
 
 #### Advanced Usage
 
-Import the package and initialize the UserAgents class to set custom settings (optional, see [Settings and Parameters](#settings-and-parameters) for details).
+Import the package and use the full-fledged `get()` function. For detailed explanation of function parameters, please see [Settings and Parameters](#settings-and-parameters).
    ```python
     import simple_header as sh
 
-    simple_ua = sua.UserAgents(max_retries=3, timeout=5, cache_duration=86400, cache_location='example/path/to/folder')
+    # Get a Header instance with a random mobile user agent to scrape the desired url.
+    header = sh.get(url="https://www.example.com/cat/pics.html", mobile=True)
+    header.dict
+    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.org', 'Connection': 'keep-alive', ...}
+    
+    # Access more attributes of the Header instance (just a few examples).
+    header.connection  # 'keep-alive'
+    header.referer  # 'https://www.example.com'  <- url without path
+    header.user_agent.string  # 'Mozilla/5.0 ...'  <- randomly chosen user agent
+    header.user_agent.os  # 'Windows'
+    
+    # Overwrite auto language detection (.com = 'en-US' -> 'de-DE') and set custom seed.
+    header = sh.get(url="https://www.example.com/cat/pics.html", language="de-DE",seed=3)
+    header.referer  # 'https://www.web.de/'  <- referer from pool of common german websites
+    header.accept_language  # 'de-DE,de;q=0.5'  <- language set to German
+    
+    sh.get(url="https...com", user_agent="Mozilla/5.0 ...")  # Header instance with given user agent string.
+    # Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
+    
+    ua = sh.sua.get(num=2, mobile=True)  # List of 2 the two most common mobile user agent as UserAgent instance.
+    sh.get(url="https...com", user_agent=ua[0])  # Header instance with the previously fetched UserAgent instance passed.
+    # Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
    ```
 &nbsp;
 
-Fetching User Agents.
+You can also use get more than one Header instance at once with the `get_list()` function. 
+The `get_dict()` function returns a dictionary with the headers directly usable in a request.
    ```python
-    # Fetch a specified number of random mobile user agent instances (with settings from the class above).
-    simple_ua.get(num=2, shuffle=True, mobile=True)
+    # Get a list of 10 Header instances, each with the passed user agent string.
+    sh.get_list(url="https...com", user_agent="Mozilla/5.0 ...", num=10)
+    # [Header(...), Header(...), ...]
+    
+    sh.get_dict(url="https://www.example.com/cat/pics.html") # Dictionary with just the headers.
+    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Connection': 'keep-alive', ...} 
+   ```
+&nbsp;
+
+Fetching User Agents. For full explanation check the [simple-useragent](https://github.com/Lennolium/simple-useragent) package.
+   ```python
+    # Fetch a specified number of random mobile user agent instances.
+    sh.sua.get(num=2, shuffle=True, mobile=True)
     # [UserAgent('Mozilla/5.0 (iPhone ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
+
+    sh.sua.get_list(force_cached=True)  # List of all available desktop user agents as strings.
+    # ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
+     
+    sh.sua.get_dict()  # Dictionary with all desktop and mobile user agents.
+    # {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
    ```  
 &nbsp;
 
-You can also use the convenience functions to get user agents without initializing the class.
-   ```python
-    sua.get(num=2, mobile=True)  # List of the 2 most common mobile user agent (attributes explained below).
-    # [UserAgent('Mozilla/5.0 (Android ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
-    
-    sua.get_list(force_cached=True)  # List of all available desktop user agents as strings.
-    # ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
-    
-    sua.get_dict()  # Dictionary with all desktop and mobile user agents.
-    # {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
-   ```
-&nbsp;
-
-The instance offers attributes for the user agent properties.
+The UserAgent instance offers attributes for the user agent properties. You can also access the properties with dictionary syntax.
    ```python
     # Parse a custom string directly to the UserAgent class and access its attributes.
-    obj = sua.parse('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36')
+    obj = sh.sua.parse('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36')
     obj.string  # 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit ...'
     obj.browser  # 'Chrome', 'Firefox', 'Safari', 'Edge', 'IE', 'Opera', 'Whale', 'QQ Browser', 'Samsung Browser', 'Other'
     obj.browser_version  # '110', '109', '537', ...
     obj.browser_version_minor  # '0', '1', '36', ...
-
-    # You can also access the attributes with square brackets.
-    obj = sua.get(num=1, shuffle=True)[0]
     obj['os']  # 'Windows', 'macOS', 'Linux', 'Android', 'iOS', 'Other'
     obj['os_version']  # '10', '7', '11', '14', ...
     obj['os_version_minor']  # '0', '1', '2', ...
@@ -179,27 +195,22 @@ The instance offers attributes for the user agent properties.
 
 The functions can take the following parameters:
 
-- __num:__ The number of user agents to fetch (default: _None_ = gets you all user agents available).
-- __mobile:__ Fetch mobile or desktop user agents (default: _False_ = desktop).
-- __shuffle:__ Whether to shuffle/randomize the order of user agents (default: _False_ = ordered by usage).
-- __force_cached:__ Force the use of memory or file cached user agents (default: _None_ = fetches new user agents if cache is outdated, _False_ = always call the API, _True_ = always use the cache).
-
-&nbsp;
-
-You can set custom preferences when initializing the class with `UserAgents(...)`.
-
-- __max_retries:__ The maximum number of retries to reach the API, before falling back to local cache (default: _3_).
-- __timeout:__ The timeout in seconds for the API request (default: _5_).
-- __cache_duration:__ The duration in seconds for the user agents to be cached (default: _86400_ = 1 day).
-- __cache_location:__ The folder in which the user agents are cached, specific to the OS. You can see the default location with `UserAgents._cache_location`.
+- __url:__ The url of the website you want to scrape.
+- __language:__ The language of the website you want to scrape or where the request is made from (default: _None_ = auto-detect).
+- __user_agent:__ A custom user agent string or a UserAgent instance to use for header generation (default: _None_ = random user agent).
+- __mobile:__ If no user_agent is passed: Generate a mobile or desktop user agent (default: _False_ = desktop).
+- __seed:__ The random seed for referer selection and header value combinations (default: _None_ = most plausible values chosen, max: _720_).
+- __num:__ The number of Header instances to fetch for get_list method (default: _10_, max: _720_).
 
 &nbsp;
 
 > __Notes:__
 > 
-> - The user agents are cached locally to avoid unnecessary API calls, and are refreshed automatically every 24 hours.
-> - During runtime the user agents are stored in memory and written to a cache file for persistence and performance.
-> - Every time you invoke a simple-header function, it is automatically checked for outdated user agents.
+> - The `src/simple_header/inspect_headers.py` file contains a commented-out Flask app to validate which headers your browser or scraper sends.
+> - The language auto-detection is based on the top-level domain of the url. You can overwrite it with the `language` parameter, by giving it a language (e.g. 'de-DE') or a country code (e.g. 'de'). Fallback for unknown or non-country domains (.org, .dev, ...) is 'en-US'.
+> - For each language there is a pool of common websites, which are used to get a plausible referer. Also, we use the url to scrape without the path as referer (e.g. 'https://www.example.com/cat/pics.html' -> 'https://www.example.com'). The referer is used to make the request look more realistic, as it seems like the user is browsing between different pages of the website.
+> - The `seed` parameter is used to set the random seed for referer selection and header values (if multiple are available). This is useful if your request got blocked by the server, so you try again with another seed. There are around 720 different combinations/seeds possible.
+> - The order of the headers is important, as most servers and bot-detectors check for that, even if the web standards say it should not be considered. I manually tested for every browser and OS which headers are sent and in which order.
 
 &nbsp;
 

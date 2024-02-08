@@ -46,9 +46,9 @@ import pathlib
 import random
 import re
 
+import simple_useragent as sua
 import tldextract
 import validators
-import simple_useragent as sua
 
 from . import exceptions
 
@@ -884,4 +884,3 @@ class Headers:
 get_dict = Headers.get_dict
 get_list = Headers.get_list
 get = Headers.get
-get_ua = sua.get

@@ -24,7 +24,7 @@ header.user_agent.string >> 'Mozilla/5.0 ...'
 header.user_agent.os >> 'Windows'
 
 # Get a list of 10 Header instances sorted by plausibility with
-# different seeds/header combinations:
+# different seeds/header combinations, but the same given user agent:
 sh.get_list(url="https...", num=10, user_agent="Mozilla/5...")
 >> [Header(...), Header(...), ...]
 
@@ -36,11 +36,11 @@ sh.get_dict(url="https...com", language="de-DE", seed=3)
 
 # Fetch the two most common mobile user agent instances (see the README
 # of simple-useragent for full documentation):
-sua.get_ua(num=2, shuffle=False, mobile=True)
+sh.sua.get(num=2, shuffle=False, mobile=True)
 >> [UserAgent('Mozilla/5.0 (iPhone ...'), UserAgent('Mozilla/5.0  ...')]
 
-sua.get_ua()[0].string >> 'Mozilla/5.0 (Windows NT ...'
-sua.get_ua()[0].os >> 'Windows'
+sh.sua.get_ua()[0].string >> 'Mozilla/5.0 (Windows NT ...'
+sh.sua.get_ua()[0].os >> 'Windows'
 """
 
 # Header.
@@ -53,4 +53,4 @@ __status__ = "Development"
 __github__ = "https://github.com/Lennolium/simple-header"
 
 # Imports.
-from .core import Header, get_dict, get_list, get, get_ua
+from .core import Header, get, get_dict, get_list, sua
