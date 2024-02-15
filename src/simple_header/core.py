@@ -28,13 +28,14 @@ __dict__ method. The modules get_dict function directly returns a single
 ready to use dictionary with the headers for a request. The inspect.py
 file contains a Flask app to validate which headers your browser sends.
 """
+from __future__ import annotations
 
 # Header.
 __author__ = "Lennart Haack"
 __email__ = "simple-header@lennolium.dev"
 __license__ = "GNU GPLv3"
-__version__ = "0.1.0"
-__date__ = "2024-02-07"
+__version__ = "0.1.1"
+__date__ = "2024-02-14"
 __status__ = "Development"
 __github__ = "https://github.com/Lennolium/simple-header"
 
@@ -50,7 +51,7 @@ import simple_useragent as sua
 import tldextract
 import validators
 
-from . import exceptions
+from simple_header import exceptions
 
 # Logging.
 LOGGER = logging.getLogger(__name__)
@@ -70,6 +71,7 @@ class Header:
             user_agent: sua.UserAgent | str = None,
             mobile: bool = False,
             seed: int = None,
+            intra_site_nav: bool = False,
             ) -> None:
         """
         Initializes the Header class.
@@ -92,6 +94,11 @@ class Header:
             are available). If None, the first and most common value is
             used.
         :type seed: int
+        :param intra_site_nav: If the request is made from the same site
+            (intra-site navigation). If True, the referer is the url
+            without path. If False, the referer is a random referer from
+            the same TLD (default=False).
+        :type intra_site_nav: bool
         """
 
         # Input and class parameters.
@@ -99,6 +106,7 @@ class Header:
         self.language = None
         self.mobile = None
         self.seed = None
+        self.intra_site_nav = intra_site_nav
 
         # Header values.
         self.host = None
@@ -142,6 +150,7 @@ class Header:
                 user_agent=self.user_agent,
                 mobile=self.mobile,
                 seed=self.seed,
+                intra_site_nav=self.intra_site_nav,
                 _internal=True
                 )
 
@@ -180,7 +189,9 @@ class Header:
         return (f"{self.__class__.__name__}(url={self.url!r}, "
                 f"language={self.language!r}, "
                 f"user_agent={self.user_agent.string!r}, "
-                f"mobile={self.mobile!r})")
+                f"mobile={self.mobile!r}, "
+                f"seed={self.seed!r}, "
+                f"intra_site_nav={self.intra_site_nav!r})")
 
     def __eq__(self, other) -> bool:
         """
@@ -241,8 +252,8 @@ class Header:
             with open(fp, "r") as fh:
                 return json.load(fh)
 
-        except FileNotFoundError as e:
-            LOGGER.error(f"Could not find template file, that is shipped"
+        except Exception as e:
+            LOGGER.error(f"Could not find template file, that is shipped "
                          f"with the package! Verify that the file exists "
                          f"and if it does, report the issue please.\n"
                          f"{str(e.__class__.__name__)}: {str(e)}"
@@ -273,7 +284,7 @@ class Header:
         referer_json = self.__load_json("referer_templates.json")
 
         # Sanitize and format TLD input for referer.
-        if tld not in referer_json.keys():
+        if tld not in referer_json.keys() or not tld:
             LOGGER.warning(
                     f"Could not auto-detect language for TLD '{tld}'! "
                     f"Falling back to to standard language 'en-US'."
@@ -459,7 +470,7 @@ class Header:
         referer_json = self.__load_json("referer_templates.json")
 
         # Create a list and add the url without path as first referer.
-        referers = [f"{url.split("/")[0]}//{url.split("/")[2]}/"]
+        referers = [f"{url.split('/')[0]}//{url.split('/')[2]}/"]
 
         # Use language to get the TLD from the referer json. Fallback to
         # 'com' if not found.
@@ -506,6 +517,13 @@ class Header:
         """
 
         version = re.search(r'Chrome/(\d+)\.\d+\.\d+\.\d+', user_agent.string)
+
+        # Fallback for Chrome on some iOS devices.
+        if not version:
+            version = re.search(r'CriOS/(\d+)\.\d+\.\d+\.\d+',
+                                user_agent.string
+                                )
+
         return version.group(1) if version else user_agent.browser_version
 
     def __sec_ch_ua(
@@ -588,6 +606,7 @@ class Header:
             user_agent: sua.UserAgent | str = None,
             mobile: bool = False,
             seed: int = None,
+            intra_site_nav: bool = False,
             _internal: bool = False,
             ) -> dict[str, str]:
         """
@@ -615,6 +634,11 @@ class Header:
             are available). If None, the first and most common value is
             used (max=720).
         :type seed: int
+        :param intra_site_nav: If the request is made from the same site
+            (intra-site navigation). If True, the referer is the url
+            without path. If False, the referer is a random referer from
+            the same TLD (default=False).
+        :type intra_site_nav: bool
         :param _internal: If the function is called from inside the
             class. If True, we do not validate the inputs again.
         :type _internal: bool
@@ -633,6 +657,11 @@ class Header:
                     user_agent=user_agent,
                     mobile=mobile,
                     )
+        else:
+            self.url = url
+            self.language = language
+            self.user_agent = user_agent
+            self.mobile = mobile
 
         # Headers:
         # Domain to scrape without protocol and path.
@@ -640,9 +669,9 @@ class Header:
         self.connection = "keep-alive"
         self.cache_control = "max-age=0"
         # Sec-Ch-Ua headers only send by Chrome-based browsers.
-        self.sec_ch_ua = self.__sec_ch_ua(ua_obj=user_agent)[0]
-        self.sec_ch_ua_mobile = self.__sec_ch_ua(ua_obj=user_agent)[1]
-        self.sec_ch_ua_platform = self.__sec_ch_ua(ua_obj=user_agent)[2]
+        self.sec_ch_ua = self.__sec_ch_ua(ua_obj=self.user_agent)[0]
+        self.sec_ch_ua_mobile = self.__sec_ch_ua(ua_obj=self.user_agent)[1]
+        self.sec_ch_ua_platform = self.__sec_ch_ua(ua_obj=self.user_agent)[2]
         # SSL connection: '1', no SSL: '0'.
         self.upgrade_insecure_requests = self.__upgrade_insecure_requests(
                 url=self.url
@@ -670,7 +699,35 @@ class Header:
         # Import header templates json and get the template for the current os
         # and browser.
         header_templates = self.__load_json("header_templates.json")
-        header_template = header_templates[user_agent.os][user_agent.browser]
+
+        # Fallback for other browser and os.
+        if self.user_agent.os == "Other" or self.user_agent.browser == "Other":
+            fallback_os = self.user_agent.os
+            fallback_browser = self.user_agent.browser
+            if self.user_agent.os == "Other":
+                fallback_os = "Windows"
+
+            if self.user_agent.browser == "Other":
+                fallback_browser = "Chrome"
+
+            header_template = header_templates[fallback_os][
+                fallback_browser]
+
+        else:
+            try:
+                header_template = header_templates[self.user_agent.os][
+                    self.user_agent.browser]
+            except KeyError:
+                LOGGER.warning(
+                        f"Could not find header template for "
+                        f"'{self.user_agent.os}' and "
+                        f"'{self.user_agent.browser}'! Falling back to "
+                        f"a good default header template."
+                        )
+                if self.mobile:
+                    header_template = header_templates["Android"]["Chrome"]
+                else:
+                    header_template = header_templates["Windows"]["Chrome"]
 
         # Assign the instance attributes values to the header template.
         for key in header_template:
@@ -687,6 +744,15 @@ class Header:
                 header_template[key] = self.user_agent.string
                 continue
 
+            elif key == "Referer":
+                if intra_site_nav:
+                    header_template[key] = self.referer[0]
+                else:
+                    header_template[key] = random.SystemRandom().choice(
+                            self.referer[1:]
+                            )
+                continue
+
             # We convert it to the right formatted name of the instance
             # attribute.
             else:
@@ -698,6 +764,7 @@ class Header:
                 if seed is not None:
                     random.seed(seed)
                     header_template[key] = random.choice(attr)
+                    random.seed()
 
                 else:
                     # First element.
@@ -732,6 +799,7 @@ class Headers:
             user_agent: str | sua.UserAgent = None,
             mobile: bool = False,
             seed: int = None,
+            intra_site_nav: bool = False,
             ) -> dict[str, str]:
         """
         Generate headers for a request with right orderings and values
@@ -758,6 +826,11 @@ class Headers:
             are available). If None, the first and most common value is
             used (max=720).
         :type seed: int
+        :param intra_site_nav: If the request is made from the same site
+        (intra-site navigation). If True, the referer is the url
+        without path. If False, the referer is a random referer from
+        the same TLD (default=False).
+        :type intra_site_nav: bool
         :return: The headers in a dictionary, ready to use in a request.
         :rtype: dict[str, str]
         """
@@ -769,6 +842,7 @@ class Headers:
                 user_agent=user_agent,
                 mobile=mobile,
                 seed=seed,
+                intra_site_nav=intra_site_nav,
                 )
 
         # Return the headers as a dictionary.
@@ -781,6 +855,7 @@ class Headers:
             user_agent: str | sua.UserAgent = None,
             mobile: bool = False,
             num: int = 10,
+            intra_site_nav: bool = False,
             ) -> list[Header]:
         """
         Generate headers for a request with right orderings and values
@@ -809,6 +884,11 @@ class Headers:
         :param num: Number of header instances to generate and append to
             the list (max=720, default=10).
         :type num: int
+        :param intra_site_nav: If the request is made from the same site
+        (intra-site navigation). If True, the referer is the url
+        without path. If False, the referer is a random referer from
+        the same TLD (default=False).
+        :type intra_site_nav: bool
         :return: The headers in a dictionary, ready to use in a request.
         :rtype: dict[str, str]
         """
@@ -822,6 +902,7 @@ class Headers:
                     user_agent=user_agent,
                     mobile=mobile,
                     seed=i,
+                    intra_site_nav=intra_site_nav,
                     )
 
             headers.append(header)
@@ -835,6 +916,7 @@ class Headers:
             user_agent: str | sua.UserAgent = None,
             mobile: bool = False,
             seed: int = None,
+            intra_site_nav: bool = False,
             ) -> Header:
         """
         Generate headers for a request with right orderings and values
@@ -865,6 +947,11 @@ class Headers:
             are available). If None, the first and most common value is
             used (max=720).
         :type seed: int
+        :param intra_site_nav: If the request is made from the same site
+            (intra-site navigation). If True, the referer is the url
+            without path. If False, the referer is a random referer from
+            the same TLD (default=False).
+        :type intra_site_nav: bool
         :return: A Header instance.
         :rtype: Header
         """
@@ -875,6 +962,7 @@ class Headers:
                 user_agent=user_agent,
                 mobile=mobile,
                 seed=seed,
+                intra_site_nav=intra_site_nav,
                 )
 
         return header
