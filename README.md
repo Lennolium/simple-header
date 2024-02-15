@@ -16,14 +16,14 @@
     <img src="https://img.shields.io/github/last-commit/Lennolium/simple-header?label=Last%20Updated&color=orange" alt="last updated" >
   <a></a>  
    <a href="https://app.codacy.com/gh/Lennolium/simple-header/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade" > 
-    <img src="https://app.codacy.com/project/badge/Grade/747e8fea69394b10a1f4627babddcf4f" alt="code quality" >
+    <img src="https://app.codacy.com/project/badge/Grade/539da9f205284733a9a249d9e098e17f" alt="code quality" >
     <a></a>
    <a href="https://github.com/Lennolium/simple-header/commits/main" > 
     <img src="https://img.shields.io/github/commit-activity/m/Lennolium/simple-header?label=Commit%20Activity&color=yellow" 
 alt="commit activity" >
      <a></a>
   <a href="https://github.com/Lennolium/simple-header/releases" > 
-    <img src="https://img.shields.io/badge/Version-0.1.0-brightgreen" 
+    <img src="https://img.shields.io/badge/Version-0.1.1-brightgreen" 
 alt="stable version" >
      <br>
   <a href="https://github.com/Lennolium/simple-header/issues" > 
@@ -50,7 +50,8 @@ Generate ready-to-use headers for a web request with the least chance of
 being blocked by anti-scraping techniques applied by websites. The
 headers are based on the most common headers sent by browsers and operating
 systems, and are ordered in the right way (servers check for that, even if the web standards say it
-should not be considered). <br><br>
+should not be considered). If you just need real-world useragents, check out my 
+<a href="https://github.com/Lennolium/simple-useragent">simple-useragent</a> package.<br><br>
 
 [![Donate](https://img.shields.io/badge/Donate-Paypal-blue?style=flat-square&logo=paypal)](https://www.paypal.me/smogg)
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20me%20a-Coffee-f5d132?style=flat-square&logo=buymeacoffee)](https://buymeacoffee.com/lennolium)
@@ -82,12 +83,13 @@ should not be considered). <br><br>
 ## Features
 
 - __Authentic:__ All header values, combinations and their ordering are `verified to work` with most web servers.
+- __Complete:__ Generates all `Sec-Ch-Ua`, `Sec-Ch-Ua-Mobile`, `Sec-Fetch-Dest`, `...` headers for Chrome-based browsers.
 - __Powerful:__ Pass your own user agent in or use the convenience functions to get common, real-world user agents. 
 - __Wide Support:__ Almost `all user agents supported`: Windows, macOS, Linux, Android and iOS: Google Chrome, Firefox, Safari, Edge, Opera, Whale and QQ.
 - __Lightweight:__ Designed to consume minimal system resources and optimized for performance.
 - __Simple:__ Easy to use and understand with a clean and simple API.
 - __Compatible:__ Supports `Python 3.8 and above`. Runs on Windows, macOS and Linux.
-- __Ready-to-use:__ It generates headers for direct use in web requests, so you can focus on your project.
+- __Tested:__ Has 99% test coverage and is continuously tested.
 - __Open Source:__ Provides transparency and allows community contributions for continuous development.
 
 &nbsp;
@@ -115,7 +117,7 @@ Just import the package and use the convenience function.
     import simple_header as sh
 
     sh.get_dict(url="https://www.example.com/cat/pics.html")
-    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Connection': 'keep-alive', ...}
+    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Sec-Ch-Ua': '"Not A(Brand";v="99", ...', ...}
    ```
 &nbsp;
 
@@ -135,6 +137,8 @@ Import the package and use the full-fledged `get()` function. For detailed expla
     header.referer  # 'https://www.example.com'  <- url without path
     header.user_agent.string  # 'Mozilla/5.0 ...'  <- randomly chosen user agent
     header.user_agent.os  # 'Windows'
+    header.sec_ch_ua  # '"Not A(Brand";v="99", "Microsoft Edge";v="108", "Chromium";v="108"'
+    header.sec_fetch_mode  # ['navigate', 'same-origin', 'cors']  <- multiple values possible (list of strings)
     
     # Overwrite auto language detection (.com = 'en-US' -> 'de-DE') and set custom seed.
     header = sh.get(url="https://www.example.com/cat/pics.html", language="de-DE",seed=3)

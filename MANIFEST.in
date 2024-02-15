@@ -1,0 +1,8 @@
+global-exclude tests/*
+include README.md
+include LICENSE
+include ACKNOWLEDGMENTS
+include requirements.txt
+include requirements-dev.txt
+include src/simple_header/data/*
+include src/simple_header/data/*.json
