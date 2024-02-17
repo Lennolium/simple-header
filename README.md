@@ -100,9 +100,9 @@ should not be considered). If you just need real-world useragents, check out my
 
 Just install the package from [PyPi](https://pypi.org/project/simple-header/) using pip:
 
-   ```bash
-    pip install simple-header
-   ```
+```bash
+pip install simple-header
+```
 
 &nbsp;
 
@@ -113,86 +113,86 @@ Just install the package from [PyPi](https://pypi.org/project/simple-header/) us
 #### Quickstart
 
 Just import the package and use the convenience function.
-   ```python
-    import simple_header as sh
+```python
+import simple_header as sh
 
-    sh.get_dict(url="https://www.example.com/cat/pics.html")
-    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Sec-Ch-Ua': '"Not A(Brand";v="99", ...', ...}
-   ```
+sh.get_dict(url="https://www.example.com/cat/pics.html")
+# {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Sec-Ch-Ua': '"Not A(Brand";v="99", ...', ...}
+```
 &nbsp;
 
 #### Advanced Usage
 
 Import the package and use the full-fledged `get()` function. For detailed explanation of function parameters, please see [Settings and Parameters](#settings-and-parameters).
-   ```python
-    import simple_header as sh
+```python
+import simple_header as sh
 
-    # Get a Header instance with a random mobile user agent to scrape the desired url.
-    header = sh.get(url="https://www.example.com/cat/pics.html", mobile=True)
-    header.dict
-    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.org', 'Connection': 'keep-alive', ...}
-    
-    # Access more attributes of the Header instance (just a few examples).
-    header.connection  # 'keep-alive'
-    header.referer  # 'https://www.example.com'  <- url without path
-    header.user_agent.string  # 'Mozilla/5.0 ...'  <- randomly chosen user agent
-    header.user_agent.os  # 'Windows'
-    header.sec_ch_ua  # '"Not A(Brand";v="99", "Microsoft Edge";v="108", "Chromium";v="108"'
-    header.sec_fetch_mode  # ['navigate', 'same-origin', 'cors']  <- multiple values possible (list of strings)
-    
-    # Overwrite auto language detection (.com = 'en-US' -> 'de-DE') and set custom seed.
-    header = sh.get(url="https://www.example.com/cat/pics.html", language="de-DE",seed=3)
-    header.referer  # 'https://www.web.de/'  <- referer from pool of common german websites
-    header.accept_language  # 'de-DE,de;q=0.5'  <- language set to German
-    
-    sh.get(url="https...com", user_agent="Mozilla/5.0 ...")  # Header instance with given user agent string.
-    # Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
-    
-    ua = sh.sua.get(num=2, mobile=True)  # List of 2 the two most common mobile user agent as UserAgent instance.
-    sh.get(url="https...com", user_agent=ua[0])  # Header instance with the previously fetched UserAgent instance passed.
-    # Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
-   ```
+# Get a Header instance with a random mobile user agent to scrape the desired url.
+header = sh.get(url="https://www.example.com/cat/pics.html", mobile=True)
+header.dict
+# {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.org', 'Connection': 'keep-alive', ...}
+
+# Access more attributes of the Header instance (just a few examples).
+header.connection  # 'keep-alive'
+header.referer  # 'https://www.example.com'  <- url without path
+header.user_agent.string  # 'Mozilla/5.0 ...'  <- randomly chosen user agent
+header.user_agent.os  # 'Windows'
+header.sec_ch_ua  # '"Not A(Brand";v="99", "Microsoft Edge";v="108", "Chromium";v="108"'
+header.sec_fetch_mode  # ['navigate', 'same-origin', 'cors']  <- multiple values possible (list of strings)
+
+# Overwrite auto language detection (.com = 'en-US' -> 'de-DE') and set custom seed.
+header = sh.get(url="https://www.example.com/cat/pics.html", language="de-DE",seed=3)
+header.referer  # 'https://www.web.de/'  <- referer from pool of common german websites
+header.accept_language  # 'de-DE,de;q=0.5'  <- language set to German
+
+sh.get(url="https...com", user_agent="Mozilla/5.0 ...")  # Header instance with given user agent string.
+# Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
+
+ua = sh.sua.get(num=2, mobile=True)  # List of 2 the two most common mobile user agent as UserAgent instance.
+sh.get(url="https...com", user_agent=ua[0])  # Header instance with the previously fetched UserAgent instance passed.
+# Header('Mozilla/5.0 ...', 'https...com', 'keep-alive', ...)
+```
 &nbsp;
 
 You can also use get more than one Header instance at once with the `get_list()` function. 
 The `get_dict()` function returns a dictionary with the headers directly usable in a request.
-   ```python
-    # Get a list of 10 Header instances, each with the passed user agent string.
-    sh.get_list(url="https...com", user_agent="Mozilla/5.0 ...", num=10)
-    # [Header(...), Header(...), ...]
-    
-    sh.get_dict(url="https://www.example.com/cat/pics.html") # Dictionary with just the headers.
-    # {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Connection': 'keep-alive', ...} 
-   ```
+```python
+# Get a list of 10 Header instances, each with the passed user agent string.
+sh.get_list(url="https...com", user_agent="Mozilla/5.0 ...", num=10)
+# [Header(...), Header(...), ...]
+
+sh.get_dict(url="https://www.example.com/cat/pics.html") # Dictionary with just the headers.
+# {'User-Agent': 'Mozilla/5.0 ...', 'Host': 'www.example.com', 'Connection': 'keep-alive', ...} 
+```
 &nbsp;
 
 Fetching User Agents. For full explanation check the [simple-useragent](https://github.com/Lennolium/simple-useragent) package.
-   ```python
-    # Fetch a specified number of random mobile user agent instances.
-    sh.sua.get(num=2, shuffle=True, mobile=True)
-    # [UserAgent('Mozilla/5.0 (iPhone ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
+```python
+# Fetch a specified number of random mobile user agent instances.
+sh.sua.get(num=2, shuffle=True, mobile=True)
+# [UserAgent('Mozilla/5.0 (iPhone ...'), UserAgent('Mozilla/5.0 (iPhone; ...')]
 
-    sh.sua.get_list(force_cached=True)  # List of all available desktop user agents as strings.
-    # ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
-     
-    sh.sua.get_dict()  # Dictionary with all desktop and mobile user agents.
-    # {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
-   ```  
+sh.sua.get_list(force_cached=True)  # List of all available desktop user agents as strings.
+# ['Mozilla/5.0 ...', 'Mozilla/5.0 (iPhone ...', 'Mozilla/5.0 (iPhone ...', ...]
+ 
+sh.sua.get_dict()  # Dictionary with all desktop and mobile user agents.
+# {'desktop': ['Mozilla/5.0 ...', ...] 'mobile': ['Mozilla/5.0 (iPhone ...', ...]}
+```  
 &nbsp;
 
 The UserAgent instance offers attributes for the user agent properties. You can also access the properties with dictionary syntax.
-   ```python
-    # Parse a custom string directly to the UserAgent class and access its attributes.
-    obj = sh.sua.parse('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36')
-    obj.string  # 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit ...'
-    obj.browser  # 'Chrome', 'Firefox', 'Safari', 'Edge', 'IE', 'Opera', 'Whale', 'QQ Browser', 'Samsung Browser', 'Other'
-    obj.browser_version  # '110', '109', '537', ...
-    obj.browser_version_minor  # '0', '1', '36', ...
-    obj['os']  # 'Windows', 'macOS', 'Linux', 'Android', 'iOS', 'Other'
-    obj['os_version']  # '10', '7', '11', '14', ...
-    obj['os_version_minor']  # '0', '1', '2', ...
-    obj['mobile']  # True / False
-   ```
+```python
+# Parse a custom string directly to the UserAgent class and access its attributes.
+obj = sh.sua.parse('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36')
+obj.string  # 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit ...'
+obj.browser  # 'Chrome', 'Firefox', 'Safari', 'Edge', 'IE', 'Opera', 'Whale', 'QQ Browser', 'Samsung Browser', 'Other'
+obj.browser_version  # '110', '109', '537', ...
+obj.browser_version_minor  # '0', '1', '36', ...
+obj['os']  # 'Windows', 'macOS', 'Linux', 'Android', 'iOS', 'Other'
+obj['os_version']  # '10', '7', '11', '14', ...
+obj['os_version_minor']  # '0', '1', '2', ...
+obj['mobile']  # True / False
+```
 &nbsp;
 
 #### Settings and Parameters

@@ -124,7 +124,7 @@ body:
     id: version
     attributes:
       label: Package Version
-      description: "What version of the package are you running? In Python: 'simple_header.__version__', pip: 'pip show simple-header'."
+      description: "What version of the package are you running? In Python: `simple_header.__version__`, pip: `pip show simple-header`."
       placeholder: Latest, 0.1.0, 0.1.1, Legacy, ...
     validations:
       required: true
