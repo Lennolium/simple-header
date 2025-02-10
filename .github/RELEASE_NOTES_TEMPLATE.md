@@ -1,12 +1,5 @@
 ## 🚀 What's New 
-- Fixed severe exceptions occurring at runtime and blocking generation of headers.
-- Fixed a bug where the Sec-Fetch-Site headers were not being generated correctly.
-- Improved exception handling and error messages.
-- More support for different user agents and platforms.
-- Added exhaustive test suite (100% test coverage).
-- Build and deployment pipeline now includes automated testing and deployment (build.sh).
-- Added more documentation and better examples.
-- General refactoring.
+- Switched to minimum required dependencies from pinned for more flexibility (Thanks to @leosilberg).
 &nbsp;
 
 ## ✨ Features

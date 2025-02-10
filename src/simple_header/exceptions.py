@@ -12,8 +12,8 @@ methods. The exceptions are derived from the base Exception class.
 __author__ = "Lennart Haack"
 __email__ = "simple-header@lennolium.dev"
 __license__ = "GNU GPLv3"
-__version__ = "0.1.2"
-__date__ = "2025-01-12"
+__version__ = "0.1.3"
+__date__ = "2025-02-10"
 __status__ = "Development"
 __github__ = "https://github.com/Lennolium/simple-header"
 
