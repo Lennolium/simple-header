@@ -87,6 +87,16 @@ _logo "Execution time: $(date +'%y/%m/%d %H:%M:%S')"
 _logo "-------------------------------------------------------------------------- \n\n"
 
 
+# Confirm we are on the dev branch.
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+_info "Confirming we are on the dev branch ..."
+if [ "$current_branch" != "dev" ]; then
+    _failed
+else
+    _success
+fi
+
+
 # Check if Python 3 is installed and install it if not.
 _info "Checking and installing system dependencies (${min_py_version}) ..."
 if test ! "$(which "${min_py_version}")" && test $os = "Linux"; then
